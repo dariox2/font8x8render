@@ -13,32 +13,15 @@ Renderer
 ========
 To visualize the font, a simple renderer is included in render.py:
 
-#python render.py 65 97 49
-  XX
- XXXX
-XX  XX
-XX  XX
-XXXXXX
-XX  XX
-XX  XX
-
-
-
- XXXX
-    XX
- XXXXX
-XX  XX
- XXX XX
-
-  XX
- XXX
-  XX
-  XX
-  XX
-  XX
-XXXXXX
-
-
+    # python render.py 65
+    
+      XX    
+     XXXX   
+    XX  XX  
+    XX  XX  
+    XXXXXX  
+    XX  XX  
+    XX  XX
 
 Credits
 =======
