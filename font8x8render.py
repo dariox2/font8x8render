@@ -33,7 +33,7 @@ def newcol(oldpix, newpix, alpha):
           oldpix[2]*(1-alpha)+newpix[2]*alpha]
 
 
-def annotate_img(img, text, x=8, y=8, dir="horiz", color=[128,128,128], alpha=1.0):
+def annotate_img(img, text, x=8, y=8, dir="horiz", color=[128,128,128], alpha=1.0, zoom=2):
 
   kern=8
 
@@ -45,21 +45,25 @@ def annotate_img(img, text, x=8, y=8, dir="horiz", color=[128,128,128], alpha=1.
     bitmap = select_set(ord(c))
 
     # Draw a character
-    for posy in range(0,8):
-      for posx in range(0,8):
-        pixel = bitmap[posy] & 1 << posx
+    for py in range(0,8):
+      for px in range(0,8):
+        pixel = bitmap[py] & 1 << px
         if pixel != 0:
-          # notice inverted coordinates used in arrays
-          img[y+dy+posy,x+dx+posx]=newcol(img[y+dy+posy,x+dx+posx], color, alpha)
+          for zy in range(0, zoom):
+            for zx in range(0, zoom):
+              # notice inverted coordinates used in arrays
+              img[y+dy*zoom+py*zoom+zy*zoom, x+dx*zoom+px*zoom+zx*zoom] = newcol(
+                   img[y+dy*zoom+py*zoom+zy*zoom, x+dx*zoom+px*zoom+zx*zoom],
+                   color, alpha)
 
     if dir=="vert":
       dy+=kern
-      if dy>=img.shape[0]-y-8:
+      if dy*zoom>=img.shape[0]-y-8*zoom:
         dx+=kern+2
         dy=0
     else:
-      dx+=kern
-      if dx>=img.shape[1]-x-8:
+      dx+=kern*zoom
+      if dx*zoom>=img.shape[1]-x-8*zoom:
         dy+=kern+2
         dx=0
     
