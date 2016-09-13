@@ -270,8 +270,16 @@ def select_set(ord):
   return bitmap
 
 
+def newcol(oldpix, newpix, alpha):
 
-def annotate_img(img, xpos=8, ypos=8, text="AaBbCc123"):
+  return [oldpix[0]*(1-alpha)+newpix[0]*alpha,
+          oldpix[1]*(1-alpha)+newpix[1]*alpha,
+          oldpix[2]*(1-alpha)+newpix[2]*alpha]
+
+
+def annotate_img(img, text, xpos=8, ypos=8, dir="horiz", color=[128,128,128], alpha=1.0):
+
+  kern=8
 
   dx=0
   dy=0
@@ -286,8 +294,20 @@ def annotate_img(img, xpos=8, ypos=8, text="AaBbCc123"):
       for y in range(0,8):
         setc = bitmap[x] & 1 << y
         if setc!=0:
-          img[dx+xpos+x,dy+ypos+y]=[255,255,255]
+          #img[xpos+dx+x,ypos+dy+y]=[255,255,255]
+          img[xpos+dx+x,ypos+dy+y]=newcol(img[xpos+dx+x,ypos+dy+y], color, alpha)
 
-    dx+=12
+    if dir=="vert":
+      dx+=kern
+      if dx>=img.shape[0]-xpos-8:
+        dy+=kern+2
+        dx=0
+    else:
+      dy+=kern
+      if dy>=img.shape[1]-ypos-8:
+        dx+=kern+2
+        dy=0
+    
+
 
   return
