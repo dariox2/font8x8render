@@ -20,18 +20,7 @@ def render(bitmap):
         pr=pr+"X"
       else:
         pr=pr+" "
-    print pr
-
-
-def select_set(ord):
-  if ord>=0 and ord<=127:
-    bitmap=font8x8.font8x8_basic[ord]
-  elif ord>=160 and ord<=255:
-    bitmap=font8x8.font8x8_ext_latin[ord-160]
-  else:
-    bitmap=font8x8.font8x8_basic[32]
-    
-  return bitmap
+    print(pr)
   
     
 i=1
@@ -40,7 +29,7 @@ expr=""
 for index, elem in enumerate(sys.argv):
   if index>0:
     ord = int(elem)
-    bitmap = select_set(ord)
+    bitmap = font8x8.select_set(ord)
     render(bitmap)
 
 #eop

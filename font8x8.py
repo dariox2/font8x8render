@@ -256,3 +256,38 @@ font8x8_ext_latin = [
     [ 0x00, 0x00, 0x06, 0x3E, 0x66, 0x3E, 0x06, 0x00],   ## U+00FE (thorn)
     [ 0x00, 0x33, 0x00, 0x33, 0x33, 0x3E, 0x30, 0x1F]    ## U+00FF (y umlaut)
 ] 
+
+
+
+def select_set(ord):
+  if ord>=0 and ord<=127:
+    bitmap=font8x8_basic[ord]
+  elif ord>=160 and ord<=255:
+    bitmap=font8x8_ext_latin[ord-160]
+  else:
+    bitmap=font8x8_basic[32]
+    
+  return bitmap
+
+
+
+def annotate_img(img, xpos=8, ypos=8, text="AaBbCc123"):
+
+  dx=0
+  dy=0
+  for i in range(0, len(text)):
+
+    c=text[i:i+1]
+    bitmap = select_set(ord(c))
+
+    setc=0
+    mask=0
+    for x in range(0,8):
+      for y in range(0,8):
+        setc = bitmap[x] & 1 << y
+        if setc!=0:
+          img[dx+xpos+x,dy+ypos+y]=[255,255,255]
+
+    dx+=12
+
+  return
