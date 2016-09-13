@@ -7,7 +7,7 @@ import sys
 
 import font8x8
 
-def render(bitmap):
+def renderconsole(bitmap):
   x=0
   y=0
   setc=0
@@ -30,7 +30,7 @@ for index, elem in enumerate(sys.argv):
   if index>0:
     ord = int(elem)
     bitmap = font8x8.select_set(ord)
-    render(bitmap)
+    renderconsole(bitmap)
 
 #eop
 
