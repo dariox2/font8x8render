@@ -20,7 +20,7 @@ plt.show()
 plt.imsave(fname='demo_img_annotated.png', arr=img)
 
 warnings.simplefilter('ignore')
-plt.pause(3)
+plt.pause(60)
 
 plt.close()
 

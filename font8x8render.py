@@ -52,12 +52,12 @@ def annotate_img(img, text, x=8, y=8, dir="horiz", color=[128,128,128], alpha=1.
           for zy in range(0, zoom):
             for zx in range(0, zoom):
               # notice inverted coordinates used in arrays
-              img[y+dy*zoom+py*zoom+zy*zoom, x+dx*zoom+px*zoom+zx*zoom] = newcol(
-                   img[y+dy*zoom+py*zoom+zy*zoom, x+dx*zoom+px*zoom+zx*zoom],
+              img[y+dy+py*zoom+zy, x+dx+px*zoom+zx] = newcol(
+                   img[y+dy+py*zoom+zy, x+dx+px*zoom+zx],
                    color, alpha)
 
     if dir=="vert":
-      dy+=kern
+      dy+=kernzoom
       if dy*zoom>=img.shape[0]-y-8*zoom:
         dx+=kern+2
         dy=0
