@@ -33,9 +33,13 @@ def newcol(oldpix, newpix, alpha):
           oldpix[2]*(1-alpha)+newpix[2]*alpha]
 
 
-def annotate_img(img, text, x=8, y=8, dir="horiz", color=[128,128,128], alpha=1.0, zoom=2):
+def annotate_img(img, text, x=8, y=8, dir="horiz", 
+	color=[128,128,128], alpha=1.0, zoom=1):
 
   kern=8
+
+  if y=="bottom":
+  	y=img.shape[0]-(kern*zoom*2)
 
   dx=0
   dy=0
@@ -57,14 +61,18 @@ def annotate_img(img, text, x=8, y=8, dir="horiz", color=[128,128,128], alpha=1.
                    color, alpha)
 
     if dir=="vert":
-      dy+=kernzoom
-      if dy*zoom>=img.shape[0]-y-8*zoom:
-        dx+=kern+2
+      dy+=(kern+1)*zoom
+      if y+dy+kern*zoom>=img.shape[0]:
+        dx+=(kern+1)*zoom
+        if x+dx+kern*zoom>=img.shape[1]:
+          return
         dy=0
     else:
       dx+=kern*zoom
-      if dx*zoom>=img.shape[1]-x-8*zoom:
-        dy+=kern+2
+      if x+dx+kern*zoom>=img.shape[1]:
+        dy+=(kern+2)*zoom
+        if y+dy+kern*zoom>=img.shape[0]:
+          return
         dx=0
     
   return
