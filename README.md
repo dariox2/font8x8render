@@ -1,19 +1,35 @@
 
-font8x8render
-=============
+##font8x8render
 
 Simple python program for annotate images using 8x8 bitmap font
 
 Author: Dario Albertocchi
 License: Public Domain
 
-See included example demo_img.py 
+```
+import font8x8render
+
+text=datetime.date.today().strftime("%Y-%m-%d")+" "+datetime.datetime.now().time().strftime("%H:%M:%S")
+
+font8x8render.annotate_img(img, text,
+                           x=50, # start 50 pixels from the left
+                           y=-50, # minus, start 50 pixels from bottom
+                           color=[128,255,128], # rgb light green
+                           alpha=0.6, # transparency (default 1.0)
+                           box="black") # add background (default none)
+```
 
 
-A console renderer is also included to visualize
+![Anu with timestamp](https://raw.githubusercontent.com/dariox2/font8x8render/master/demo_annotated.png)
+
+
+See full example included, demo_img.py.
+
+
+A console renderer is also included to check 
 the font; it takes character code as input:
 
-#python render.py 65 97 49
+```python render.py 65 97 49
 
   XX
  XXXX
@@ -38,11 +54,11 @@ XX  XX
   XX
   XX
 XXXXXX
+```
 
 
 
-Credits
-=======
+###Credits
 
 Based on the C version found at https://github.com/dhepper/font8x8
 by Daniel Hepper <daniel@hepper.net>
