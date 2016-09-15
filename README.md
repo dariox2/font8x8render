@@ -29,7 +29,8 @@ See full example included, demo_img.py.
 A console renderer is also included to check 
 the font; it takes character code as input:
 
-```python render.py 65 97 49
+```
+python render.py 65 97 49
 
   XX
  XXXX
