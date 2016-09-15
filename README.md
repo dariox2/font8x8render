@@ -1,19 +1,20 @@
 
-8x8 monochrome bitmap font for rendering
-=========================================
+font8x8render
+=============
 
-
-A collection of python files containing a 8x8 bitmap font.
+Simple python program for annotate images using 8x8 bitmap font
 
 Author: Dario Albertocchi
 License: Public Domain
 
+See included example demo_img.py 
 
-Renderer
-========
-To visualize the font, a simple renderer is included in render.py:
+
+A console renderer is also included to visualize
+the font; it takes character code as input:
 
 #python render.py 65 97 49
+
   XX
  XXXX
 XX  XX

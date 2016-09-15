@@ -4,6 +4,13 @@
 # Author: Dario Albertocchi, 2016-09-12 (Programmer's Day)
 # License: Public Domain
 #
+# Notes: parameters follow screen convention (x=horiz, y=vert),
+#        which is inverted with respect arrays.
+#        this is a mess. don't judge me. :p
+#
+# Issues: bounding box only works well if text fits on one line.
+#         maybe vert dir should rotate text
+#
 
 import font8x8
 
@@ -35,7 +42,8 @@ def newcol(oldpix, newpix, alpha):
 
 def putpix(img, x, y, color, alpha):
 
-  img[x, y] = newcol(img[x, y], color, alpha)
+  if x>=0 and x<img.shape[0] and y>=0 and y<img.shape[1]:
+    img[x, y] = newcol(img[x, y], color, alpha)
 
   return
 
@@ -45,13 +53,17 @@ def annotate_img(img, text, x=8, y=8, dir="horiz",
 
   kern=8
 
-  if y=="bottom":
-  	y=img.shape[0]-(kern*zoom*2)
+  print(x,y)
+  if x<0:
+    x=img.shape[1]+x
+  if y<0:
+    y=img.shape[0]+y
+  print(x,y)
 
-  xmin=x
-  ymin=y
-  xmax=x
-  ymax=y
+
+  # warn, see note above
+  xmin,xmax=y,y
+  ymin,ymax=x,x
 
   if box=="white":
     bgcol=[255,255,255]
@@ -95,23 +107,24 @@ def annotate_img(img, text, x=8, y=8, dir="horiz",
       dy+=(kern+1)*zoom
       if y+dy+kern*zoom>=img.shape[0]:
         dx+=(kern+1)*zoom
-        if x+dx+kern*zoom>=img.shape[1]:
-          return
         dy=0
     else:
       dx+=kern*zoom
       if x+dx+kern*zoom>=img.shape[1]:
         dy+=(kern+2)*zoom
-        if y+dy+kern*zoom>=img.shape[0]:
-          return
         dx=0
-    
+  
+  # complete borders around bounding box  
   if box!="none":
-    for i in range(xmin,xmax):
-      putpix(img, i, ymin-2, bgcol, alpha)
-    #for i in range(ymin,ymax):
-    #  print(i)
-    #  putpix(img, i, xmin-1, bgcol, alpha)
+    l=xmin-2*zoom
+    r=xmax+2*zoom
+    t=ymin-2*zoom
+    b=ymax+2*zoom
+    for i in range(l, r):
+      for j in range(t, b):
+        if (i<l+2*zoom or i>r-2*zoom) or \
+           (j<t+2*zoom or j>b-2*zoom):
+          putpix(img, i, j, bgcol, alpha)
 
 
   return
