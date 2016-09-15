@@ -18,7 +18,7 @@ img = plt.imread('anu.jpg')
 #text="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
 text=datetime.date.today().strftime("%Y-%m-%d")+" "+datetime.datetime.now().time().strftime("%H:%M:%S")
 font8x8render.annotate_img(img, text, x=50, y="bottom",
-      color=[255,255,255], alpha=0.6, zoom=1)
+      color=[255,255,255], alpha=0.6, zoom=1, box="black")
 
 plt.imshow(img)
 plt.show()

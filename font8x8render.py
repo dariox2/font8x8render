@@ -33,13 +33,32 @@ def newcol(oldpix, newpix, alpha):
           oldpix[2]*(1-alpha)+newpix[2]*alpha]
 
 
+def putpix(img, x, y, color, alpha):
+
+  img[x, y] = newcol(img[x, y], color, alpha)
+
+  return
+
+
 def annotate_img(img, text, x=8, y=8, dir="horiz", 
-	color=[128,128,128], alpha=1.0, zoom=1):
+	color=[128,128,128], alpha=1.0, zoom=1, box="none"):
 
   kern=8
 
   if y=="bottom":
   	y=img.shape[0]-(kern*zoom*2)
+
+  xmin=x
+  ymin=y
+  xmax=x
+  ymax=y
+
+  if box=="white":
+    bgcol=[255,255,255]
+  elif box=="black":
+    bgcol=[0,0,0]
+  else:
+    bgcol=[128,128,128]
 
   dx=0
   dy=0
@@ -49,16 +68,28 @@ def annotate_img(img, text, x=8, y=8, dir="horiz",
     bitmap = select_set(ord(c))
 
     # Draw a character
-    for py in range(0,8):
-      for px in range(0,8):
-        pixel = bitmap[py] & 1 << px
-        if pixel != 0:
-          for zy in range(0, zoom):
-            for zx in range(0, zoom):
-              # notice inverted coordinates used in arrays
-              img[y+dy+py*zoom+zy, x+dx+px*zoom+zx] = newcol(
-                   img[y+dy+py*zoom+zy, x+dx+px*zoom+zx],
-                   color, alpha)
+    for py in range(0, 8):
+      for px in range(0, 8):
+        if py>=0 and py<8 and px>=0 and px<8:
+          pixel = bitmap[py] & 1 << px
+        else:
+          pixel=0
+          
+        for zy in range(0, zoom):
+          for zx in range(0, zoom):
+
+            xpos=y+dy+py*zoom+zy
+            ypos=x+dx+px*zoom+zx
+
+            xmin=min(xmin,xpos)
+            ymin=min(ymin,ypos)
+            xmax=max(xmax,xpos)
+            ymax=max(ymax,ypos)
+
+            if pixel != 0:
+              putpix(img, xpos, ypos, color, alpha)
+            elif box != "none":
+              putpix(img, xpos, ypos, bgcol, alpha)
 
     if dir=="vert":
       dy+=(kern+1)*zoom
@@ -75,6 +106,14 @@ def annotate_img(img, text, x=8, y=8, dir="horiz",
           return
         dx=0
     
+  if box!="none":
+    for i in range(xmin,xmax):
+      putpix(img, i, ymin-2, bgcol, alpha)
+    #for i in range(ymin,ymax):
+    #  print(i)
+    #  putpix(img, i, xmin-1, bgcol, alpha)
+
+
   return
 
 # eop
