@@ -76,8 +76,14 @@ def annotate_img(img, text, x=8, y=8, dir="horiz",
   i=0
   while i<len(text):
 
-    c=text[i:i+1]
-    bitmap = select_set(ord(c))
+    ucod=ord(text[i:i+1])
+      
+    # ignore spaces at line beginning 
+    if ucod==32 and ((dx==0 and not vert) or (dy==0 and vert)):
+      text=text[0:i]+text[i+1:]
+      continue
+
+    bitmap = select_set(ucod)
 
     # Draw a character
     for py in range(0, 8 if vert else 9 ):
@@ -108,7 +114,7 @@ def annotate_img(img, text, x=8, y=8, dir="horiz",
 
     if vert:
       dy+=kern*zoom
-      if y+dy+kern*zoom>=img.shape[0]:
+      if y+dy+kern*zoom>=img.shape[0]-kern*zoom/2:
         dx-=(kern+1)*zoom
         dy=0
         maxline=currline
@@ -117,7 +123,7 @@ def annotate_img(img, text, x=8, y=8, dir="horiz",
         currline+=1
     else:
       dx+=kern*zoom
-      if x+dx+kern*zoom>=img.shape[1]:
+      if x+dx+kern*zoom>=img.shape[1]-kern*zoom/2:
         dy+=(kern+1)*zoom
         dx=0
         maxline=currline
@@ -132,7 +138,7 @@ def annotate_img(img, text, x=8, y=8, dir="horiz",
     i+=1
 
   
-  # complete borders around bounding box  
+  # draw a border to improve appearence of background 
   if box!="none":
     l=xmin-2*zoom
     r=xmax+2*zoom

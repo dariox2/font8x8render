@@ -13,11 +13,25 @@ import datetime
 import font8x8render
 
 plt.ion()
-img = plt.imread('demo_orig.jpg')
+img = plt.imread('demo_0_original.jpg')
 
-text="BARK BARK BARK! BARK bark! bark bark bark bark!"
-font8x8render.annotate_img(img, text, x=90, y=-100, color=[0,0,0], alpha=0.5,
-                             box="white", zoom=1)#, dir="vert")
+
+# demo 1: simple, horizontal, red
+#text="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+#font8x8render.annotate_img(img, text, x=30, y=60, color=[255,0,0])
+
+# demo 2: from right margin, vertical, zoom 2x, transparency
+#text="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+#font8x8render.annotate_img(img, text, x=-30, y=15, color=[0,255,0],
+#                              zoom=2, dir="vert", alpha=0.5)
+
+# demo 3: timestamp with background box
+text=datetime.date.today().strftime("%Y-%m-%d")+" "+ \
+     datetime.datetime.now().time().strftime("%H:%M:%S")
+font8x8render.annotate_img(img, text, x=50, y=50,
+      color=[255,255,255], alpha=0.6, zoom=1, box="black")
+
+
 
 plt.imshow(img)
 plt.show()

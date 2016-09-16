@@ -1,7 +1,7 @@
 
 ##font8x8render
 
-Simple python program for annotate images using 8x8 bitmap font
+Simple utility for annotating images, using 8x8 bitmap font
 
 Author: Dario Albertocchi
 License: Public Domain
@@ -23,7 +23,7 @@ font8x8render.annotate_img(img, text,
 ![Anu with timestamp](https://raw.githubusercontent.com/dariox2/font8x8render/master/demo_annotated.png)
 
 
-See full example included, demo_img.py.
+See included example demo_img.py for more details.
 
 
 A console renderer is also included to check 
