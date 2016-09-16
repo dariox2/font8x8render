@@ -15,9 +15,9 @@ import font8x8render
 plt.ion()
 img = plt.imread('demo_orig.jpg')
 
-text="ABCabc123aaaaaaaaaaaaaaaabbbbbbbbbbbbbbccc"
-font8x8render.annotate_img(img, text, x=30, y=-30, color=[0,0,0], alpha=0.5,
-                             box="white", dir="vert")
+text="BARK BARK BARK! BARK bark! bark bark bark bark!"
+font8x8render.annotate_img(img, text, x=90, y=-100, color=[0,0,0], alpha=0.5,
+                             box="white", zoom=1)#, dir="vert")
 
 plt.imshow(img)
 plt.show()

@@ -8,9 +8,6 @@
 #        which is inverted with respect arrays.
 #        this is a mess. don't judge me. :p
 #
-# Issues: bounding box only works well if text fits on one line.
-#         maybe vert dir should rotate text
-#
 
 import font8x8
 
@@ -53,17 +50,18 @@ def annotate_img(img, text, x=8, y=8, dir="horiz",
 
   kern=8
 
-  print(x,y)
+  vert=(dir=="vert")
+
   if x<0:
     x=img.shape[1]+x
   if y<0:
     y=img.shape[0]+y
-  print(x,y)
-
+  
 
   # warn, see note above
   xmin,xmax=y,y
   ymin,ymax=x,x
+  maxline=1
 
   if box=="white":
     bgcol=[255,255,255]
@@ -74,16 +72,18 @@ def annotate_img(img, text, x=8, y=8, dir="horiz",
 
   dx=0
   dy=0
-  for i in range(0, len(text)):
+  currline=1
+  i=0
+  while i<len(text):
 
     c=text[i:i+1]
     bitmap = select_set(ord(c))
 
     # Draw a character
-    for py in range(0, 9):
-      for px in range(0, 8):
+    for py in range(0, 8 if vert else 9 ):
+      for px in range(0, 9 if vert else 8):
         if py>=0 and py<8 and px>=0 and px<8:
-          if dir=="vert":
+          if vert:
             pixel = bitmap[7-px] & 1 << py
           else:
             pixel = bitmap[py] & 1 << px
@@ -106,16 +106,31 @@ def annotate_img(img, text, x=8, y=8, dir="horiz",
             elif box != "none":
               putpix(img, xpos, ypos, bgcol, alpha)
 
-    if dir=="vert":
+    if vert:
       dy+=kern*zoom
       if y+dy+kern*zoom>=img.shape[0]:
         dx-=(kern+1)*zoom
         dy=0
+        maxline=currline
+        currline=1
+      else:
+        currline+=1
     else:
       dx+=kern*zoom
       if x+dx+kern*zoom>=img.shape[1]:
         dy+=(kern+1)*zoom
         dx=0
+        maxline=currline
+        currline=1
+      else:
+        currline+=1
+
+    # aesthetic: match longest line length
+    while (len(text) % maxline) != 0:
+      text=text+" "
+
+    i+=1
+
   
   # complete borders around bounding box  
   if box!="none":
@@ -127,7 +142,7 @@ def annotate_img(img, text, x=8, y=8, dir="horiz",
       for j in range(t, b):
         if (i<l+2*zoom or i>r-2*zoom) or \
            (j<t+2*zoom or j>b-2*zoom):
-          putpix(img, i, j, [0,255,0], alpha) #bgcol, alpha)
+          putpix(img, i, j, bgcol, alpha)
 
 
   return
