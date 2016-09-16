@@ -20,14 +20,13 @@ font8x8render.annotate_img(img, text,
 ```
 
 
-![Anu with timestamp](https://raw.githubusercontent.com/dariox2/font8x8render/master/demo_annotated.png)
+![Anu with timestamp](https://raw.githubusercontent.com/dariox2/font8x8render/master/demo_3_timestamp.png)
 
 
 See included example demo_img.py for more details.
 
 
-A console renderer is also included to check 
-the font; it takes character code as input:
+A basic console renderer is also included to check the font; it takes character codes as input:
 
 ```
 python render.py 65 97 49
@@ -61,14 +60,14 @@ XXXXXX
 
 ###Credits
 
-Based on the C version found at https://github.com/dhepper/font8x8
-by Daniel Hepper <daniel@hepper.net>
+Based on the C version found at https://github.com/dhepper/font8x8 by Daniel Hepper <daniel@hepper.net>
 
 These header files are directly derived from an assembler file fetched from:
 http://dimensionalrift.homelinux.net/combuster/mos3/?p=viewsource&file=/modules/gfx/font8_8.asm
 
 Original header:
 
+```
 ; Summary: font8_8.asm
 ; 8x8 monochrome bitmap fonts for rendering
 ;
@@ -79,5 +78,5 @@ Original header:
 ; License:
 ;     Public Domain
 ;
-
+```
 
